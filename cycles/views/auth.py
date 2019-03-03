@@ -5,13 +5,11 @@ from django.shortcuts import render
 from django.template import RequestContext
 from django.urls import reverse
 from django.db import connection
+from cycles.forms import UserForm
 
-# from ..models import Customer, Order
-# from ecomm.forms import UserForm, ProductForm
 # from ..models import Customer, Order
 # from ecomm.models import Product, ProductType
 
-from cycles.forms import UserForm
 
 def index(request):
     template_name = 'index.html'
