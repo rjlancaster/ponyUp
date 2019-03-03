@@ -1,31 +1,36 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Pony Up!</title>
-    </head>
 
-    <body>
-        <h1>Register with Pony Up</h1>
+<head>
+    <title>Pony Up!</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+        integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+</head>
 
-        {% if registered %}
-        <strong>Thank you for registering!</strong>
-        <a href="{% url 'website:index' %}">Return to the homepage.</a><br />
-        {% else %}
-        <strong>Register here!</strong><br />
+<body>
+    <h1>Register with Pony Up</h1>
 
-        <form id="user_form" method="post" action="{% url 'cycles:register' %}"
-                enctype="multipart/form-data">
+    {% if registered %}
+    <strong>Thank you for registering!</strong>
+    <a href="{% url 'cycles:index' %}">Return to the homepage.</a><br />
+    {% else %}
+    <strong>Register here!</strong><br />
 
-            {% csrf_token %}
+    <form id="user_form" method="post" action="{% url 'cycles:register' %}" enctype="multipart/form-data">
 
-            <!-- Display each form. The as_p method wraps each element in a paragraph
+        {% csrf_token %}
+
+        <!-- Display each form. The as_p method wraps each element in a paragraph
                  (<p>) element. This ensures each element appears on a new line,
                  making everything look neater. -->
-            {{ user_form.as_p }}
+        {{ user_form.as_p }}
 
-            <!-- Provide a button to click to submit the form. -->
-            <input type="submit" name="submit" value="Register" />
-        </form>
-        {% endif %}
-    </body>
+        <!-- Provide a button to click to submit the form. -->
+        <input type="submit" name="submit" value="Register" />
+    </form>
+    {% endif %}
+</body>
+
 </html>

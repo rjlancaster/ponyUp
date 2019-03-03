@@ -9,11 +9,11 @@
     <h1>Welcome to Pony Up!</h1>
     {% if user.is_authenticated %}
     <h1>Pony Up says... hello {{ user.username }}!</h1>
-    <a href="{% url 'website:logout' %}">Logout</a>
+    <a href="{% url 'cycles:logout' %}">Logout</a>
     {% else %}
     <h1>Pony Up says...</h1>
-    <div><a href="{% url 'website:register' %}">Register</a></div>
-    <div><a href="{% url 'website:login' %}">Login</a></div>
+    <div><a href="{% url 'cycles:register' %}">Register</a></div>
+    <div><a href="{% url 'cycles:login' %}">Login</a></div>
     {% endif %}
   </body>
 </html>
