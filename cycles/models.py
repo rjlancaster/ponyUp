@@ -13,16 +13,15 @@ class Tenant(models.Model):
 
 class Cycle(models.Model):
     name = models.CharField(max_length=100)
-    active = models.BooleanField(default=None, null=False)
+    inactive = models.BooleanField(default=None, null=False)
     endDate = models.DateField(default=None)
-    tenant = models.ManyToManyField("Tenant", through='tenantCycle')
 
     def __str__(self):
       return f'{self.name}'
 
 class tenantCycle(models.Model):
-    tenant = models.ForeignKey(Tenant, on_delete=models.CASCADE) ## do I need this cascade?
-    cycle = models.ForeignKey(Cycle, on_delete=models.CASCADE)  ##same question here
+    tenant = models.ForeignKey(Tenant, on_delete=models.PROTECT)
+    cycle = models.ForeignKey(Cycle, on_delete=models.CASCADE)
 
 class Bills(models.Model):
     name = models.CharField(max_length=100)
