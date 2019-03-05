@@ -1,0 +1,7 @@
+
+<div class="container">
+    <h1 class="mt-4 mb-3">Billing Cycle List</h1>
+    {% for cycle in cycles %}
+    <p>{{ cycle.name }} End date: {{ cycle.endDate }}</p>
+    {% endfor %}
+</div>

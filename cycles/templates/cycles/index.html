@@ -26,15 +26,9 @@
     {% endblock nav %}
 
     {% if user.is_authenticated %}
-    {% block content %}
-    <div class="jumbotron_container">
-        <div class="jumbotron jumbotron_item">
-            <h1 class="display-4">Hi {{ user.username }}!</h1>
-            <hr class="my-4">
-        </div>
-    </div>
-    {% endblock content %}
-    <a href="{% url 'cycles:logout' %}">Logout</a>
+
+    {% include "cycles/cyclelist.html" %}
+
     {% else %}
     <h1>Lets get started...</h1>
     <div><a href="{% url 'cycles:register' %}">Register</a></div>

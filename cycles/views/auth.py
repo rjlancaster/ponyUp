@@ -6,14 +6,18 @@ from django.template import RequestContext
 from django.urls import reverse
 from django.db import connection
 from cycles.forms import UserForm
+from ..models import Cycle
 
 # from ..models import Customer, Order
 # from ecomm.models import Product, ProductType
 
 
 def index(request):
-    template_name = 'cycles/index.html'
-    return render(request, template_name, {})
+    cycles = Cycle.objects.all()
+    context = {'cycles': cycles}
+    print(context)
+    return render(request, 'cycles/index.html', context)
+
 
 
 # Create your views here.
