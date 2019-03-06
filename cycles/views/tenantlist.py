@@ -5,6 +5,7 @@ from django.db.models import Count
 from ..models import Tenant
 
 def tenantlist(request):
+    print("hello")
     tenants = Tenant.objects.all()
     context = {'tenants': tenants}
     return render(request, 'cycles/tenantlist.html', context)
@@ -33,12 +34,8 @@ def deleteTenant(request, tenant_id):
     return HttpResponseRedirect(reverse('cycles:tenantlist'))
 
 def editTenantForm(request, tenant_id):
-
     tenantRow = get_object_or_404(Tenant, pk=tenant_id)
-    tenant_id = tenantRow.id
-    print(tenant_id)
-    tenant = Tenant.objects.filter(pk=tenant_id)
-    context = {'tenant': tenant}
+    context = {'tenant': tenantRow}
     return render(request, 'cycles/editTenantForm.html', context)
 
 def editTenant(request):
