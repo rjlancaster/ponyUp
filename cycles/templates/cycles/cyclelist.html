@@ -1,7 +1,18 @@
-
 <div class="container">
     <h1 class="mt-4 mb-3">Billing Cycle List</h1>
+    {% if cycles %}
     {% for cycle in cycles %}
-    <p>{{ cycle.name }} End date: {{ cycle.endDate }}</p>
+    <ul>
+        <li>{{ cycle.name }} End date: {{ cycle.endDate }}
+            <form action="{% url 'cycles:deleteCycle' cycle.id %}" method="post" class="d-inline">
+                {% csrf_token %}
+                <input type="submit" value="X" class="btn btn-danger btn-sm" /></form>
+            </form>
+        </li>
+    </ul>
     {% endfor %}
+    {% else %}
+    <p>No billing cycles available</p>
+    {% endif %}
+
 </div>
