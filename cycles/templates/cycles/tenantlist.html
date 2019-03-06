@@ -1,13 +1,16 @@
-
 {% extends "cycles/index.html" %}
 
 {% block content %}
-    <h1>Current Tenants</h1>
-    <ul class="list-group mt-3" style="width: 25rem;"></ul>
-    {% for tenant in tenants %}
-    {% if tenant.deletedOn is None %}
-    <li class="list-group-item">{{ tenant.name }} Household income: ${{ tenant.income }}</li>
+<h1>Current Tenants</h1>
+<ul class="list-group mt-3" style="width: 25rem;"></ul>
+{% for tenant in tenants %}
+{% if tenant.deletedOn is None %}
+<li class="list-group-item">{{ tenant.name }} Household income: ${{ tenant.income }}
+    {% csrf_token %}
+    <a href="{% url 'cycles:editTenantForm' tenant.id %}"><button class="btn btn-primary btn-sm">Edit</button></a>
+    <a href="{% url 'cycles:deleteTenant' tenant.id %}"><button class="btn btn-danger btn-sm">Delete</button></a>
+</li>
 
-    {% endif %}
-    {% endfor %}
-{% endblock content %}
+{% endif %}
+{% endfor %}
+{% endblock %}
