@@ -16,7 +16,7 @@ def index(request):
     cycles = Cycle.objects.all()
     context = {'cycles': cycles}
     print(context)
-    return render(request, 'cycles/index.html', context)
+    return render(request, 'cycles/cyclelist.html', context)
 
 
 

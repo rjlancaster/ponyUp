@@ -1,4 +1,4 @@
-{% load staticfiles %}
+{% load static %}
 <!DOCTYPE html>
 <html>
 
@@ -21,13 +21,11 @@
 </head>
 
 <body>
-    {% block nav %}
     {% include "cycles/navbar.html" %}
-    {% endblock nav %}
 
     {% if user.is_authenticated %}
-
-    {% include "cycles/cyclelist.html" %}
+    {% block content %}
+    {% endblock content%}
 
     {% else %}
     <h1>Lets get started...</h1>
