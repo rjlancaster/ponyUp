@@ -10,7 +10,7 @@
     <a href="{% url 'cycles:editTenantForm' tenant.id %}"><button class="btn btn-primary btn-sm">Edit</button></a>
     <a href="{% url 'cycles:deleteTenant' tenant.id %}"><button class="btn btn-danger btn-sm">Delete</button></a>
 </li>
-
 {% endif %}
 {% endfor %}
+<a href="{% url 'cycles:addTenantForm' %}"><button class="btn btn-primary btn-sm">Add Tenant</button></a>
 {% endblock %}

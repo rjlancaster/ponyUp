@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
@@ -55,7 +56,7 @@ def editTenant(request, tenant_id):
     return HttpResponseRedirect(reverse('cycles:tenantlist'))
 
 def addTenantForm(request):
-    return render(request, 'cycles/addTenantForm.html', context)
+    return render(request, 'cycles/addTenantForm.html')
 
 def addTenant(request):
     """R Lancaster[This method is executed when the user saves the updated user settings on the user settings update form page]
@@ -66,13 +67,16 @@ def addTenant(request):
     Returns:
         User is redirected to main User Settings page.
     """
-    manager = request.user.id
+    managerId = request.user.id
+    userObject = User.objects.get(pk=managerId)
     name = request.POST['name']
     income = request.POST['income']
-    manager = manager
-    new_tenant = tenant.objects.create(
+    print(userObject.id)
+    # manager = managerId
+    # print(tenant.user.id)
+    new_tenant = Tenant.objects.create(
         name = name,
         income = income,
-        manager = manager
+        manager = User.objects.get(pk=managerId)
     )
     return HttpResponseRedirect(reverse('cycles:tenantlist'))
