@@ -7,8 +7,10 @@ from ..models import Cycle
 def cyclelist(request):
     cycles = Cycle.objects.all()
     context = {'cycles': cycles}
-    print('print this')
     return render(request, 'cycles/cyclelist.html', context)
+
+def cycleDetail(request, cycle_id):
+    return render(request, 'cycles/cycleDetail.html')
 
 def deleteCycle(request, cycle_id):
     '''

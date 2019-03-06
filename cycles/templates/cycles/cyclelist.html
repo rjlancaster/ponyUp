@@ -6,7 +6,7 @@
     {% if cycles %}
     {% for cycle in cycles %}
     <ul>
-        <li>{{ cycle.name }} End date: {{ cycle.endDate }}
+        <li><a href="{% url 'cycles:cycleDetail' cycle.id %}" />{{ cycle.name }} </a> End date: {{ cycle.endDate }}
             <form action="{% url 'cycles:deleteCycle' cycle.id %}" method="post" class="d-inline">
                 {% csrf_token %}
                 <input type="submit" value="X" class="btn btn-danger btn-sm" /></form>
