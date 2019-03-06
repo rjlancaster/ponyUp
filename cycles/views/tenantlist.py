@@ -2,10 +2,10 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.db.models import Count
+from datetime import datetime
 from ..models import Tenant
 
 def tenantlist(request):
-    print("hello")
     tenants = Tenant.objects.all()
     context = {'tenants': tenants}
     return render(request, 'cycles/tenantlist.html', context)
@@ -27,10 +27,10 @@ def deleteTenant(request, tenant_id):
      HttpResponseRedirect: Redirects to the tenant list.
 
     '''
-    tenants = get_object_or_404(Tenant, pk=tenant_id)
-    tenant_id = tenant.id
-    tenant = Tenant.objects.filter(pk=tenant_id)
-    tenant.delete()
+    tenant = Tenant.objects.get(pk=tenant_id)
+    todaysDate = datetime.now()
+    tenant.deletedOn = todaysDate
+    tenant.save()
     return HttpResponseRedirect(reverse('cycles:tenantlist'))
 
 def editTenantForm(request, tenant_id):
@@ -38,7 +38,7 @@ def editTenantForm(request, tenant_id):
     context = {'tenant': tenantRow}
     return render(request, 'cycles/editTenantForm.html', context)
 
-def editTenant(request):
+def editTenant(request, tenant_id):
     """R Lancaster[This method is executed when the user saves the updated user settings on the user settings update form page]
 
     Arguments:
@@ -47,13 +47,15 @@ def editTenant(request):
     Returns:
         User is redirected to main User Settings page.
     """
-    tenantRow = get_object_or_404(Tenant, pk=tenant_id)
-    tenant_id = tenantRow.id
-    tenant = Tenant.objects.filter(pk=tenant_id)
+    tenant = Tenant.objects.get(pk=tenant_id)
     tenant.name = request.POST['name']
     tenant.income = request.POST['income']
+    # print(tenant.name, tenant.income)
     tenant.save()
     return HttpResponseRedirect(reverse('cycles:tenantlist'))
+
+def addTenantForm(request):
+    return render(request, 'cycles/addTenantForm.html', context)
 
 def addTenant(request):
     """R Lancaster[This method is executed when the user saves the updated user settings on the user settings update form page]
@@ -64,12 +66,13 @@ def addTenant(request):
     Returns:
         User is redirected to main User Settings page.
     """
-    currentUserId = request.user.id
-    tenantRow = get_object_or_404(Tenant, pk=tenant_id)
-    tenant_id = tenantRow.id
-    tenant = Tenant.objects.filter(pk=tenant_id)
-    tenant.name = request.POST['name']
-    tenant.income = request.POST['income']
-    tenant.manager = currentUserId
-    tenant.save()
+    manager = request.user.id
+    name = request.POST['name']
+    income = request.POST['income']
+    manager = manager
+    new_tenant = tenant.objects.create(
+        name = name,
+        income = income,
+        manager = manager
+    )
     return HttpResponseRedirect(reverse('cycles:tenantlist'))
