@@ -10,11 +10,11 @@
 <p>Recurring Bills</p>
 {% for bill in recurringBills%}
 
-<p>{{ bill.name }}  {{ bill.amount }}</p>
+<p>{{ bill.name }}  {{ bill.amount }} <a href="{% url 'cycles:editBillForm' bill.id %}"><button class="btn btn-primary btn-sm">Edit</button></a></p>
 
 {% endfor %}
 
-Total due for Recurring Bills: ${{ recurringBillsDue.amount }}
+Total due for Recurring Bills: ${{ recurringBillsDue.amount__sum }}
 <br>
 <br>
 <br>
@@ -23,6 +23,6 @@ Total due for Recurring Bills: ${{ recurringBillsDue.amount }}
 <p>{{ bill.name }}  {{ bill.amount }} </p>
 {% endfor %}
 
-Total due for One-Time Bills: $
+Total due for One-Time Bills: ${{ oneTimeBillsDue.amount__sum }}
 
 {% endblock %}
