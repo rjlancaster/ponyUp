@@ -1,5 +1,28 @@
 {% extends "cycles/index.html" %}
 
 {% block content %}
+<p>Cycle: {{ cycle.name }}  End Date: {{ cycle.endDate }} </p>
+
+{% for tenant in currentTenants %}
+<p>{{ tenant.name }}</p>
+{% endfor %}
+<br>
+<p>Recurring Bills</p>
+{% for bill in recurringBills%}
+
+<p>{{ bill.name }}  {{ bill.amount }}</p>
+
+{% endfor %}
+
+Total due for Recurring Bills: ${{ recurringBillsDue.amount }}
+<br>
+<br>
+<br>
+<p>One-Time Bills</p>
+{% for bill in oneTimeBills%}
+<p>{{ bill.name }}  {{ bill.amount }} </p>
+{% endfor %}
+
+Total due for One-Time Bills: $
 
 {% endblock %}

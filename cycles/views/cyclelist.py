@@ -10,7 +10,18 @@ def cyclelist(request):
     return render(request, 'cycles/cyclelist.html', context)
 
 def cycleDetail(request, cycle_id):
-    return render(request, 'cycles/cycleDetail.html')
+    managerId = request.user.id
+    recurringBills = Bills.objects.filter(recurring=1, cycle=cycle_id)
+    recurringBillsDue = Bills.objects.filter(recurring=1, cycle=cycle_id).count()
+    # print(recurringBillsDue)
+    oneTimeBills = Bills.objects.filter(recurring=0, cycle=cycle_id)
+    cycle = get_object_or_404(Cycle, pk=cycle_id)
+    tenants = Tenant.objects.filter(deletedOn=None, pk=managerId)
+    currentTenants = Tenant.objects.filter(cycle=cycle_id)
+    numberOfTenants = Tenant.objects.filter(cycle=cycle_id).count()
+    print(numberOfTenants)
+    context = {'recurringBills' : recurringBills, 'recurringBillsDue': recurringBillsDue, 'oneTimeBills' : oneTimeBills, 'cycle': cycle, 'tenants': tenants, 'currentTenants': currentTenants}
+    return render(request, 'cycles/cycleDetail.html', context)
 
 def deleteCycle(request, cycle_id):
     '''
@@ -32,7 +43,3 @@ def deleteCycle(request, cycle_id):
     cycle = Cycle.objects.filter(pk=cycle_id)
     cycle.delete()
     return HttpResponseRedirect(reverse('cycles:index'))
-
-def cycleHistory(request, cycle_id):
-    bills = get_object_or_404(Bills, pk=cycle_id)
-    cycle = get_object_or_404(Cycle, pk=cycle_id)
