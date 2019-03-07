@@ -14,6 +14,7 @@ urlpatterns = [
     path('deleteTenant/<int:tenant_id>', views.deleteTenant, name='deleteTenant'),
     path('editTenant/<int:tenant_id>', views.editTenant, name='editTenant'),
     path('editTenantForm/<int:tenant_id>', views.editTenantForm, name='editTenantForm'),
+    path('deleteBill/<int:bill_id>', views.deleteBill, name='deleteBill'),
     path('editBill/<int:bill_id>', views.editBill, name='editBill'),
     path('editBillForm/<int:bill_id>', views.editBillForm, name='editBillForm'),
     path('addTenantForm/', views.addTenantForm, name='addTenantForm'),

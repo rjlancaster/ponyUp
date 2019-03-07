@@ -1,7 +1,7 @@
 {% extends "cycles/index.html" %}
 
 {% block content %}
-<p>Cycle: {{ cycle.name }}  End Date: {{ cycle.endDate }} </p>
+<p>Cycle: {{ cycle.name }} End Date: {{ cycle.endDate }} </p>
 
 {% for tenant in currentTenants %}
 <p>{{ tenant.name }}</p>
@@ -10,7 +10,8 @@
 <p>Recurring Bills</p>
 {% for bill in recurringBills%}
 
-<p>{{ bill.name }}  {{ bill.amount }} <a href="{% url 'cycles:editBillForm' bill.id %}"><button class="btn btn-primary btn-sm">Edit</button></a></p>
+<p>{{ bill.name }} {{ bill.amount }} <a href="{% url 'cycles:editBillForm' bill.id %}"><button
+            class="btn btn-primary btn-sm">Edit</button></a></p>
 
 {% endfor %}
 
@@ -20,7 +21,9 @@ Total due for Recurring Bills: ${{ recurringBillsDue.amount__sum }}
 <br>
 <p>One-Time Bills</p>
 {% for bill in oneTimeBills%}
-<p>{{ bill.name }}  {{ bill.amount }} </p>
+<p>{{ bill.name }} {{ bill.amount }} <a href="{% url 'cycles:editBillForm' bill.id %}"><button
+            class="btn btn-primary btn-sm">Edit</button></a>
+    <a href="{% url 'cycles:deleteBill' bill.id %}"><button class="btn btn-danger btn-sm">Delete</button></a></p>
 {% endfor %}
 
 Total due for One-Time Bills: ${{ oneTimeBillsDue.amount__sum }}

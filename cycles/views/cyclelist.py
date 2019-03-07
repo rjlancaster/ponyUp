@@ -62,6 +62,10 @@ def editBill(request, bill_id):
     bill = Bills.objects.get(pk=bill_id)
     bill.name = request.POST['name']
     bill.amount = request.POST['amount']
-    # print(tenant.name, tenant.income)
     bill.save()
-    return HttpResponseRedirect(reverse('cycles:cycleDetail', bill.cycle))
+    return HttpResponseRedirect(reverse('cycles:cycleDetail', args=(bill.cycle.id,)))
+
+def deleteBill(request, bill_id):
+    bill = Bills.objects.get(pk=bill_id)
+    bill.delete()
+    return HttpResponseRedirect(reverse('cycles:cycleDetail', args=(bill.cycle.id,)))
