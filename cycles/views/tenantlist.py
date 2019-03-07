@@ -67,6 +67,7 @@ def addTenant(request):
     Returns:
         User is redirected to main User Settings page.
     """
+    managerId = request.user.id
     name = request.POST['name']
     income = request.POST['income']
     new_tenant = Tenant.objects.create(
