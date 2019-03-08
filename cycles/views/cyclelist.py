@@ -104,6 +104,29 @@ def addOneTime(request, cycle_id):
     )
     return HttpResponseRedirect(reverse('cycles:cycleDetail', args=(cycle_id, )))
 
-def newCycle(request):
+def newCycleForm(request):
+    managerId = request.user.id
+    print(managerId)
+    tenants = Tenant.objects.filter(deletedOn=None, manager_id=managerId)
+    print(tenants)
+    context = {'tenants': tenants}
+    return render(request, 'cycles/newCycleForm.html', context)
 
-    return render(request, 'cycles/newCycle.html')
+def newCycle(request):
+    managerId = request.user.id
+    name = request.POST['name']
+    tenantId = request.POST['tenant']
+    endDate = request.POST['date']
+    print(tenantId)
+    print(endDate)
+    billingCycle = Cycle.objects.create(
+        name = name,
+        endDate = endDate,
+        tenant = Tenant.objects.get(pk=name.id)
+    )
+    # tenantCycle = Tenantcycle.objects.create(
+    #     cycle =
+    # )
+
+    # return HttpResponseRedirect(reverse('cycles:tenantlist'))
+    return HttpResponseRedirect(reverse('cycles:cycleDetail', args=(billingCycle.id)))

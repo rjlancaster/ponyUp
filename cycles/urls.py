@@ -24,5 +24,6 @@ urlpatterns = [
     path('addTenantForm/', views.addTenantForm, name='addTenantForm'),
     path('addTenant/', views.addTenant, name='addTenant'),
     path("tenants/", views.tenantlist, name="tenantlist"),
+    path("newCycleForm/", views.newCycleForm, name="newCycleForm"),
     path("newCycle/", views.newCycle, name="newCycle"),
 ]
