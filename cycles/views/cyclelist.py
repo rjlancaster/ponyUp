@@ -13,16 +13,18 @@ def cycleDetail(request, cycle_id):
     managerId = request.user.id
     recurringBills = Bills.objects.filter(recurring=1, cycle=cycle_id)
     recurringBillsDue = Bills.objects.filter(recurring=1, cycle=cycle_id).aggregate(Sum('amount'))
-    print(recurringBillsDue)
     oneTimeBills = Bills.objects.filter(recurring=0, cycle=cycle_id)
     oneTimeBillsDue = Bills.objects.filter(recurring=0, cycle=cycle_id).aggregate(Sum('amount'))
     cycle = get_object_or_404(Cycle, pk=cycle_id)
     tenants = Tenant.objects.filter(deletedOn=None, pk=managerId)
     currentTenants = Tenant.objects.filter(cycle=cycle_id)
+    allBillsDue = Bills.objects.filter(cycle=cycle_id).aggregate(Sum('amount'))
+    allBillsDueInt = allBillsDue['amount__sum']
     numberOfTenants = Tenant.objects.filter(cycle=cycle_id).count()
-    # print(numberOfTenants)
-    context = {'recurringBills' : recurringBills, 'recurringBillsDue': recurringBillsDue, 'oneTimeBillsDue': oneTimeBillsDue, 'oneTimeBills' : oneTimeBills, 'cycle': cycle, 'tenants': tenants, 'currentTenants': currentTenants}
+    duePerTenant = allBillsDueInt/numberOfTenants
+    context = {'recurringBills' : recurringBills, 'recurringBillsDue': recurringBillsDue, 'allBillsDue': allBillsDue, 'oneTimeBillsDue': oneTimeBillsDue, 'oneTimeBills' : oneTimeBills, 'cycle': cycle, 'tenants': tenants, 'currentTenants': currentTenants, 'duePerTenant': duePerTenant}
     return render(request, 'cycles/cycleDetail.html', context)
+
 
 def deleteCycle(request, cycle_id):
     '''
@@ -69,3 +71,39 @@ def deleteBill(request, bill_id):
     bill = Bills.objects.get(pk=bill_id)
     bill.delete()
     return HttpResponseRedirect(reverse('cycles:cycleDetail', args=(bill.cycle.id,)))
+
+def addRecurringForm(request, cycle_id):
+    cycle = get_object_or_404(Cycle, pk=cycle_id)
+    context = {'cycle': cycle}
+    return render(request, 'cycles/addRecurringForm.html', context)
+
+def addRecurring(request, cycle_id):
+    name = request.POST['name']
+    amount = request.POST['amount']
+    new_tenant = Bills.objects.create(
+        name = name,
+        amount = amount,
+        recurring = 1,
+        cycle = Cycle.objects.get(pk=cycle_id)
+    )
+    return HttpResponseRedirect(reverse('cycles:cycleDetail', args=(cycle_id, )))
+
+def addOneTimeForm(request, cycle_id):
+    cycle = get_object_or_404(Cycle, pk=cycle_id)
+    context = {'cycle': cycle}
+    return render(request, 'cycles/addOneTimeForm.html', context)
+
+def addOneTime(request, cycle_id):
+    name = request.POST['name']
+    amount = request.POST['amount']
+    new_tenant = Bills.objects.create(
+        name = name,
+        amount = amount,
+        recurring = 0,
+        cycle = Cycle.objects.get(pk=cycle_id)
+    )
+    return HttpResponseRedirect(reverse('cycles:cycleDetail', args=(cycle_id, )))
+
+def newCycle(request):
+
+    return render(request, 'cycles/newCycle.html')

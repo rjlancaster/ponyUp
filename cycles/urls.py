@@ -17,7 +17,12 @@ urlpatterns = [
     path('deleteBill/<int:bill_id>', views.deleteBill, name='deleteBill'),
     path('editBill/<int:bill_id>', views.editBill, name='editBill'),
     path('editBillForm/<int:bill_id>', views.editBillForm, name='editBillForm'),
+    path('addRecurringForm/<int:cycle_id>', views.addRecurringForm, name='addRecurringForm'),
+    path('addRecurring/<int:cycle_id>', views.addRecurring, name='addRecurring'),
+    path('addOneTimeForm/<int:cycle_id>', views.addOneTimeForm, name='addOneTimeForm'),
+    path('addOneTime/<int:cycle_id>', views.addOneTime, name='addOneTime'),
     path('addTenantForm/', views.addTenantForm, name='addTenantForm'),
     path('addTenant/', views.addTenant, name='addTenant'),
     path("tenants/", views.tenantlist, name="tenantlist"),
+    path("newCycle/", views.newCycle, name="newCycle"),
 ]
