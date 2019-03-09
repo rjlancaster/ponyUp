@@ -2,7 +2,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.db.models import Count, Sum
-from ..models import Cycle, Tenant, tenantCycle, Bills
+from ..models import Cycle, Tenant, tenantCycle, Bills, Recurring
 from cycles.forms import CycleForm, TenantForm
 from django.db import connection
 
@@ -25,7 +25,6 @@ def cycleDetail(request, cycle_id):
     numberOfTenants = Tenant.objects.filter(cycle=cycle_id).count()
     if allBillsDueInt == None:
         allBillsDueInt = 0
-
     if numberOfTenants == 1:
         duePerTenant = allBillsDueInt
     else:
@@ -53,7 +52,7 @@ def deleteCycle(request, cycle_id):
     cycle_id = cycles.id
     cycle = Cycle.objects.filter(pk=cycle_id)
     cycle.delete()
-    return HttpResponseRedirect(reverse('cycles:index'))
+    return HttpResponseRedirect(reverse('cycles:cyclelist'))
 
 def editBillForm(request, bill_id):
     billRow = get_object_or_404(Bills, pk=bill_id)
@@ -138,5 +137,17 @@ def newCycle(request):
         newTenantCycle = tenantCycle.objects.create(
             cycle = newCycle,
             tenant = tenant
+        )
+    lastCycleId = newCycleId-1
+    lastCycle = Cycle.objects.get(pk=lastCycleId)
+    print(lastCycle)
+    repeatBills = Bills.objects.filter(recurring=1, cycle=lastCycleId)
+    print(repeatBills)
+    for bill in repeatBills:
+        newBillCycle = Bills.objects.create(
+            name = bill.name,
+            amount = 0.00,
+            recurring = 1,
+            cycle = newCycle
         )
     return HttpResponseRedirect(reverse('cycles:cycleDetail', args=(newCycleId, )))

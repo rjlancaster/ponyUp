@@ -1,12 +1,14 @@
 {% extends "cycles/index.html" %}
 
 {% block content %}
+<div class="container">
+<h1 class="mt-4 mb-3">Add a Recurring Bill Category </h1>
 
-<form action="{% url 'cycles:addRecurring' cycle.id %}" method="post">
+<form action="{% url 'cycles:addTenant' %}" method='POST'>
     {% csrf_token %}
-    <label>Name: </label><input type="text" name="name" />
-    <label>Amount: $</label><input type="text" name="amount"/>
-    <input type="submit" value="Save" class="btn btn-primary" />
+    <label for="name">Name</label>
+    <input type="text" name="name" />
+    <input type="submit" value="Save Category" class="btn btn-info ml-3" />
 </form>
-
-{% endblock %}
+</div>
+{% endblock content %}
