@@ -138,10 +138,10 @@ def newCycle(request):
             cycle = newCycle,
             tenant = tenant
         )
-    lastCycleId = newCycleId-1
-    lastCycle = Cycle.objects.get(pk=lastCycleId)
-    print(lastCycle)
-    repeatBills = Bills.objects.filter(recurring=1, cycle=lastCycleId)
+    # lastCycleId = newCycleId-1
+    # lastCycle = Cycle.objects.get(pk=lastCycleId)
+    # print(lastCycle)
+    repeatBills = Recurring.objects.all()
     print(repeatBills)
     for bill in repeatBills:
         newBillCycle = Bills.objects.create(
