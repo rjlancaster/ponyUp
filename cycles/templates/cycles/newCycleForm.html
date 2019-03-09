@@ -3,15 +3,14 @@
 {% block content %}
 <form id="" method="post" action="{% url 'cycles:newCycle' %}">
     {% csrf_token %}
-<h2>What is the name of this new billing cycle?</h2><br>
-<input type="text" name="name">
-<h2>Who is responsible for bills during this billing cycle?</h2>
+    <h2>What is the name and end date of this new billing cycle?</h2><br>
+    {{ cycle_form }}
+    <br><br>
+    <h2>Who is responsible for bills during this billing cycle?</h2>
     {% for tenant in tenants %}
-    <input type="checkbox" name="tenant" value="{{ tenant.id }}}">{{ tenant.name }} <br>
+    <input type="checkbox" name="tenant[]" value="{{ tenant.id }}">{{ tenant.name }}<br>
     {% endfor %}
     <br>
-    <h2>What is the final day of this billing cycle?</h2>
-    <input type="date" name="date"><br><br>
     <input type="submit">
 </form>
 

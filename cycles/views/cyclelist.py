@@ -3,6 +3,8 @@ from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.db.models import Count, Sum
 from ..models import Cycle, Tenant, tenantCycle, Bills
+from cycles.forms import CycleForm, TenantForm
+from django.db import connection
 
 def cyclelist(request):
     cycles = Cycle.objects.all()
@@ -21,7 +23,13 @@ def cycleDetail(request, cycle_id):
     allBillsDue = Bills.objects.filter(cycle=cycle_id).aggregate(Sum('amount'))
     allBillsDueInt = allBillsDue['amount__sum']
     numberOfTenants = Tenant.objects.filter(cycle=cycle_id).count()
-    duePerTenant = allBillsDueInt/numberOfTenants
+    if allBillsDueInt == None:
+        allBillsDueInt = 0
+
+    if numberOfTenants == 1:
+        duePerTenant = allBillsDueInt
+    else:
+        duePerTenant = allBillsDueInt/numberOfTenants
     context = {'recurringBills' : recurringBills, 'recurringBillsDue': recurringBillsDue, 'allBillsDue': allBillsDue, 'oneTimeBillsDue': oneTimeBillsDue, 'oneTimeBills' : oneTimeBills, 'cycle': cycle, 'tenants': tenants, 'currentTenants': currentTenants, 'duePerTenant': duePerTenant}
     return render(request, 'cycles/cycleDetail.html', context)
 
@@ -105,28 +113,30 @@ def addOneTime(request, cycle_id):
     return HttpResponseRedirect(reverse('cycles:cycleDetail', args=(cycle_id, )))
 
 def newCycleForm(request):
+    cycle_form = CycleForm()
+    # tenant_form = TenantForm()
     managerId = request.user.id
-    print(managerId)
     tenants = Tenant.objects.filter(deletedOn=None, manager_id=managerId)
-    print(tenants)
-    context = {'tenants': tenants}
+    context = {'cycle_form': cycle_form.as_p(), 'tenants': tenants}
     return render(request, 'cycles/newCycleForm.html', context)
 
 def newCycle(request):
-    managerId = request.user.id
     name = request.POST['name']
-    tenantId = request.POST['tenant']
-    endDate = request.POST['date']
-    print(tenantId)
-    print(endDate)
-    billingCycle = Cycle.objects.create(
-        name = name,
-        endDate = endDate,
-        tenant = Tenant.objects.get(pk=name.id)
-    )
-    # tenantCycle = Tenantcycle.objects.create(
-    #     cycle =
-    # )
-
-    # return HttpResponseRedirect(reverse('cycles:tenantlist'))
-    return HttpResponseRedirect(reverse('cycles:cycleDetail', args=(billingCycle.id)))
+    inactive = 0
+    year = request.POST['endDate_year']
+    month = request.POST['endDate_month']
+    day = request.POST['endDate_day']
+    endDate = year + "-"  + month + "-" + day
+    with connection.cursor() as cursor:
+        # raw SQL - Variable names reference the database table columns
+        cursor.execute("INSERT into cycles_cycle VALUES(%s, %s, %s, %s)", [None, name, inactive, endDate])
+    newCycleId = cursor.lastrowid
+    newCycle = Cycle.objects.get(pk=newCycleId)
+    tenantId = request.POST.getlist('tenant[]')
+    for tenants in tenantId:
+        tenant = Tenant.objects.get(pk=tenants)
+        newTenantCycle = tenantCycle.objects.create(
+            cycle = newCycle,
+            tenant = tenant
+        )
+    return HttpResponseRedirect(reverse('cycles:cycleDetail', args=(newCycleId, )))
