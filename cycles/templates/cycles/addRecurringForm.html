@@ -4,7 +4,7 @@
 <div class="container">
 <h1 class="mt-4 mb-3">Add a Recurring Bill Category </h1>
 
-<form action="{% url 'cycles:addTenant' %}" method='POST'>
+<form action="{% url 'cycles:addRecurring' %}" method='POST'>
     {% csrf_token %}
     <label for="name">Name</label>
     <input type="text" name="name" />

@@ -1,6 +1,7 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
+from datetime import datetime
 from ..models import Recurring
 
 
@@ -9,7 +10,7 @@ def recurringlist(request):
     context = {'recurrings': recurrings}
     return render(request, 'cycles/recurringlist.html', context)
 
-def deleterecurring(request, recurring_id):
+def deleteRecurring(request, recurring_id):
     '''
 
     Summary: This function grabs the recurring_id from the template.
@@ -32,12 +33,12 @@ def deleterecurring(request, recurring_id):
     recurring.save()
     return HttpResponseRedirect(reverse('cycles:recurringlist'))
 
-def editrecurringForm(request, recurring_id):
+def editRecurringForm(request, recurring_id):
     recurringRow = get_object_or_404(Recurring, pk=recurring_id)
     context = {'recurring': recurringRow}
     return render(request, 'cycles/editRecurringForm.html', context)
 
-def editrecurring(request, recurring_id):
+def editRecurring(request, recurring_id):
     """R Lancaster[This method is executed when the user saves the updated user settings on the user settings update form page]
 
     Arguments:
@@ -51,10 +52,10 @@ def editrecurring(request, recurring_id):
     recurring.save()
     return HttpResponseRedirect(reverse('cycles:recurringlist'))
 
-def addrecurringForm(request):
+def addRecurringForm(request):
     return render(request, 'cycles/addRecurringForm.html')
 
-def addrecurring(request):
+def addRecurring(request):
     """R Lancaster[This method is executed when the user saves the updated user settings on the user settings update form page]
 
     Arguments:
@@ -65,7 +66,6 @@ def addrecurring(request):
     """
     name = request.POST['name']
     new_recurring = Recurring.objects.create(
-        name = name,
-        deletedOn = null
+        name = name
     )
     return HttpResponseRedirect(reverse('cycles:recurringlist'))
