@@ -1,8 +1,11 @@
 {% extends "cycles/index.html" %}
 
 {% block content %}
+
 <p>Cycle: {{ cycle.name }} End Date: {{ cycle.endDate }} </p>
 
+
+{% if cycle.inactive == 0 %}
 {% for tenant in currentTenants %}
 <p>{{ tenant.name }} owes ${{ duePerTenant|floatformat:2 }}</p>
 {% endfor %}
@@ -10,27 +13,61 @@
 <p>Recurring Bills</p>
 {% for bill in recurringBills%}
 
-<p>{{ bill.name }} {{ bill.amount }} <a href="{% url 'cycles:editBillForm' bill.id %}"><button
+<p>{{ bill.name }} ${{ bill.amount }} <a href="{% url 'cycles:editBillForm' bill.id %}"><button
             class="btn btn-primary btn-sm">Edit</button></a></p>
 
 {% endfor %}
 
 Total due for Recurring Bills: ${{ recurringBillsDue.amount__sum|floatformat:2 }}
 <br>
-<a href="{% url 'cycles:addRecurringForm' cycle.id %}"><button class="btn btn-primary btn-sm">Add Recurring Bill</button></a>
+<a href="{% url 'cycles:addRecurringForm' cycle.id %}"><button class="btn btn-primary btn-sm">Add Recurring
+        Bill</button></a>
 <br>
 <br>
 <br>
 <p>One-Time Bills</p>
 {% for bill in oneTimeBills%}
-<p>{{ bill.name }} {{ bill.amount }} <a href="{% url 'cycles:editBillForm' bill.id %}"><button
+<p>{{ bill.name }} ${{ bill.amount }} <a href="{% url 'cycles:editBillForm' bill.id %}"><button
             class="btn btn-primary btn-sm">Edit</button></a>
     <a href="{% url 'cycles:deleteBill' bill.id %}"><button class="btn btn-danger btn-sm">Delete</button></a></p>
 {% endfor %}
 
 Total due for One-Time Bills: ${{ oneTimeBillsDue.amount__sum|floatformat:2 }}
 <br>
-<a href="{% url 'cycles:addOneTimeForm' cycle.id %}"><button class="btn btn-primary btn-sm">Add One-Time Bill</button></a>
+<a href="{% url 'cycles:addOneTimeForm' cycle.id %}"><button class="btn btn-primary btn-sm">Add One-Time
+        Bill</button></a>
 <br>
 Total due for billing cycle: ${{ allBillsDue.amount__sum|floatformat:2 }}
+{% endif %}
+
+
+
+{% if cycle.inactive == 1 %}
+{% for tenant in currentTenants %}
+<p>{{ tenant.name }} owes ${{ duePerTenant|floatformat:2 }}</p>
+{% endfor %}
+<br>
+<p>Recurring Bills</p>
+{% for bill in recurringBills%}
+
+<p>{{ bill.name }} ${{ bill.amount }} </p>
+
+{% endfor %}
+
+Total due for Recurring Bills: ${{ recurringBillsDue.amount__sum|floatformat:2 }}
+<br>
+<br>
+<br>
+<br>
+<p>One-Time Bills</p>
+{% for bill in oneTimeBills%}
+<p>{{ bill.name }} ${{ bill.amount }} </p>
+{% endfor %}
+
+Total due for One-Time Bills: ${{ oneTimeBillsDue.amount__sum|floatformat:2 }}
+<br>
+<br>
+Total due for billing cycle: ${{ allBillsDue.amount__sum|floatformat:2 }}
+{% endif %}
+
 {% endblock %}
