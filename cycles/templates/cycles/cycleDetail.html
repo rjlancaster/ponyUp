@@ -2,6 +2,14 @@
 
 {% block content %}
 
+<form action="{% url 'cycles:cycleLock' cycle.id %}" method="post">
+    {% csrf_token %}
+    <div class="custom-control custom-switch">
+        <input type="checkbox" onChange="this.form.submit()" class="custom-control-input" id="customSwitch1">
+        <label class="custom-control-label" for="customSwitch1">Toggle this switch element</label>
+    </div>
+</form>
+
 <p>Cycle: {{ cycle.name }} End Date: {{ cycle.endDate }} </p>
 
 

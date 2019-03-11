@@ -7,7 +7,7 @@ from cycles.forms import CycleForm, TenantForm
 from django.db import connection
 
 def cyclelist(request):
-    cycles = Cycle.objects.all()
+    cycles = Cycle.objects.all().order_by('-endDate')
     context = {'cycles': cycles}
     return render(request, 'cycles/cyclelist.html', context)
 
@@ -18,10 +18,16 @@ def cycleDetail(request, cycle_id):
     oneTimeBills = Bills.objects.filter(recurring=0, cycle=cycle_id)
     oneTimeBillsDue = Bills.objects.filter(recurring=0, cycle=cycle_id).aggregate(Sum('amount'))
     cycle = get_object_or_404(Cycle, pk=cycle_id)
-    tenants = Tenant.objects.filter(deletedOn=None, pk=managerId)
-    currentTenants = Tenant.objects.filter(cycle=cycle_id)
     allBillsDue = Bills.objects.filter(cycle=cycle_id).aggregate(Sum('amount'))
     allBillsDueInt = allBillsDue['amount__sum']
+    tenants = Tenant.objects.filter(deletedOn=None, pk=managerId)
+    currentTenants = Tenant.objects.filter(cycle=cycle_id)
+    currentTenantsIncome = Tenant.objects.filter(cycle=cycle_id).aggregate(Sum('income'))
+    currentTenantsIncomeInt = currentTenantsIncome['income__sum']
+    for tenant in currentTenants:
+        incomePercent = tenant.income/currentTenantsIncomeInt
+        percentAmtDue = allBillsDueInt*incomePercent
+        print(percentAmtDue)
     numberOfTenants = Tenant.objects.filter(cycle=cycle_id).count()
     if allBillsDueInt == None:
         allBillsDueInt = 0
@@ -29,9 +35,18 @@ def cycleDetail(request, cycle_id):
         duePerTenant = allBillsDueInt
     else:
         duePerTenant = allBillsDueInt/numberOfTenants
-    context = {'recurringBills' : recurringBills, 'recurringBillsDue': recurringBillsDue, 'allBillsDue': allBillsDue, 'oneTimeBillsDue': oneTimeBillsDue, 'oneTimeBills' : oneTimeBills, 'cycle': cycle, 'tenants': tenants, 'currentTenants': currentTenants, 'duePerTenant': duePerTenant}
+    context = {'recurringBills' : recurringBills, 'recurringBillsDue': recurringBillsDue, 'allBillsDue': allBillsDue, 'oneTimeBillsDue': oneTimeBillsDue, 'oneTimeBills' : oneTimeBills, 'cycle': cycle, 'tenants': tenants, 'currentTenants': currentTenants, 'duePerTenant': duePerTenant, 'percentAmtDue': percentAmtDue}
     return render(request, 'cycles/cycleDetail.html', context)
 
+def cycleLock(request, cycle_id):
+    cycle = get_object_or_404(Cycle, pk=cycle_id)
+    if cycle.inactive == 0:
+        cycle.inactive = 1
+        cycle.save()
+    elif cycle.inactive == 1:
+        cycle.inactive = 0
+        cycle.save()
+    return HttpResponseRedirect(reverse('cycles:cycleDetail', args=(cycle.id,)))
 
 def deleteCycle(request, cycle_id):
     '''

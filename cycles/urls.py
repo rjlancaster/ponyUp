@@ -30,6 +30,7 @@ urlpatterns = [
     path('addRecurring/<int:cycle_id>', views.addRecurring, name='addRecurring'),
     path('addOneTimeForm/<int:cycle_id>', views.addOneTimeForm, name='addOneTimeForm'),
     path('addOneTime/<int:cycle_id>', views.addOneTime, name='addOneTime'),
+    path('cycleLock/<int:cycle_id>', views.cycleLock, name='cycleLock'),
     path("newCycleForm/", views.newCycleForm, name="newCycleForm"),
     path("newCycle/", views.newCycle, name="newCycle"),
 ]
