@@ -94,12 +94,12 @@ def deleteBill(request, bill_id):
     bill.delete()
     return HttpResponseRedirect(reverse('cycles:cycleDetail', args=(bill.cycle.id,)))
 
-def addRecurringForm(request, cycle_id):
+def addRecurringFormDetail(request, cycle_id):
     cycle = get_object_or_404(Cycle, pk=cycle_id)
     context = {'cycle': cycle}
-    return render(request, 'cycles/addRecurringForm.html', context)
+    return render(request, 'cycles/addRecurringFormDetail.html', context)
 
-def addRecurring(request, cycle_id):
+def addRecurringDetail(request, cycle_id):
     name = request.POST['name']
     amount = request.POST['amount']
     new_tenant = Bills.objects.create(

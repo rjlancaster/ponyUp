@@ -6,7 +6,7 @@
     {% csrf_token %}
     <div class="custom-control custom-switch">
         <input type="checkbox" onChange="this.form.submit()" class="custom-control-input" id="customSwitch1">
-        <label class="custom-control-label" for="customSwitch1">Toggle this switch element</label>
+        <label class="custom-control-label" for="customSwitch1">LOCK Billing Cycle</label>
     </div>
 </form>
 
@@ -28,8 +28,7 @@
 
 Total due for Recurring Bills: ${{ recurringBillsDue.amount__sum|floatformat:2 }}
 <br>
-<a href="{% url 'cycles:addRecurringForm' cycle.id %}"><button class="btn btn-primary btn-sm">Add Recurring
-        Bill</button></a>
+<a href="{% url 'cycles:addRecurringFormDetail' cycle.id %}"><button class="btn btn-primary btn-sm">Add Recurring Bill</button></a>
 <br>
 <br>
 <br>
