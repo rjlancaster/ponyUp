@@ -10,6 +10,14 @@
 <a href="{% url 'cycles:cycleLock' cycle.id %}"><button class="btn btn-primary btn-sm">Unlock Billing Cycle</button></a>
 {% endif %}
 
+{% if cycle.split == 0 %}
+<a href="{% url 'cycles:percentSplit' cycle.id %}"><button class="btn btn-danger btn-sm">Split Bills by Income %</button></a>
+{% endif %}
+
+{% if cycle.split == 1 %}
+<a href="{% url 'cycles:percentSplit' cycle.id %}"><button class="btn btn-primary btn-sm">Split Bills Evenly</button></a>
+{% endif %}
+
 <br>
 <br>
 
@@ -23,12 +31,20 @@
 
 <p>Cycle: {{ cycle.name }} End Date: {{ cycle.endDate }} </p>
 
-
-{% if cycle.inactive == 0 %}
+{% if cycle.split == 0 %}
 {% for tenant in currentTenants %}
 <p>{{ tenant.name }} owes ${{ duePerTenant|floatformat:2 }}</p>
 {% endfor %}
+{% endif %}
+
+{% if cycle.split == 1 %}
+{% for tenant, due in percentAmtDue.items %}
+<p>{{ tenant }} owes ${{ due|floatformat:2 }}</p>
+{% endfor %}
+{% endif %}
+
 <br>
+{% if cycle.inactive == 0 %}
 <p>Recurring Bills</p>
 {% for bill in recurringBills%}
 
@@ -39,7 +55,8 @@
 
 Total due for Recurring Bills: ${{ recurringBillsDue.amount__sum|floatformat:2 }}
 <br>
-<a href="{% url 'cycles:addRecurringFormDetail' cycle.id %}"><button class="btn btn-primary btn-sm">Add Recurring Bill</button></a>
+<a href="{% url 'cycles:addRecurringFormDetail' cycle.id %}"><button class="btn btn-primary btn-sm">Add Recurring
+        Bill</button></a>
 <br>
 <br>
 <br>
@@ -59,12 +76,7 @@ Total due for billing cycle: ${{ allBillsDue.amount__sum|floatformat:2 }}
 {% endif %}
 
 
-
 {% if cycle.inactive == 1 %}
-{% for tenant in currentTenants %}
-<p>{{ tenant.name }} owes ${{ duePerTenant|floatformat:2 }}</p>
-{% endfor %}
-<br>
 <p>Recurring Bills</p>
 {% for bill in recurringBills%}
 

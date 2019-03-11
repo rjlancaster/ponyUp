@@ -15,6 +15,7 @@ class Cycle(models.Model):
     name = models.CharField(max_length=100)
     inactive = models.BooleanField(default=None, null=False)
     endDate = models.DateField(default=None)
+    split = models.IntegerField(default=0)
 
     def __str__(self):
       return f'{self.name}'
