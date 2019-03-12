@@ -1,16 +1,23 @@
 {% extends "cycles/index.html" %}
 
 {% block content %}
-<h1>Current Tenants</h1>
-<ul class="list-group mt-3" style="width: 25rem;"></ul>
-{% for tenant in tenants %}
-{% if tenant.deletedOn is None %}
-<li class="list-group-item">{{ tenant.name }} Household income: ${{ tenant.income }}
-    {% csrf_token %}
-    <a href="{% url 'cycles:editTenantForm' tenant.id %}"><button class="btn btn-primary btn-sm">Edit</button></a>
-    <a href="{% url 'cycles:deleteTenant' tenant.id %}"><button class="btn btn-danger btn-sm">Delete</button></a>
-</li>
-{% endif %}
-{% endfor %}
-<a href="{% url 'cycles:addTenantForm' %}"><button class="btn btn-primary btn-sm">Add Tenant</button></a>
+<h1 class="m-5">Current Tenants</h1>
+<div class='card-group'>
+    {% for tenant in tenants %}
+    {% if tenant.deletedOn is None %}
+    <div class="card m-5">
+        <div class='card-body tenantCard'>
+            <h4 class="card-title">{{ tenant.name }}</h4>
+            <h6 class='card-text'>Household income: ${{ tenant.income }}</h6>
+            {% csrf_token %}
+            <a href="{% url 'cycles:editTenantForm' tenant.id %}"><button
+                    class="btn btn-primary btn-sm">Edit</button></a>
+            <a href="{% url 'cycles:deleteTenant' tenant.id %}"><button
+                    class="btn btn-danger btn-sm">Delete</button></a>
+        </div>
+    </div>
+    {% endif %}
+    {% endfor %}
+</div>
+<a href="{% url 'cycles:addTenantForm' %}"><button class="btn btn-primary btn-sm m-5">Add Tenant</button></a>
 {% endblock %}

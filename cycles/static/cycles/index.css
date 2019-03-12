@@ -11,6 +11,11 @@
     width: 100%;
 }
 
+.tenantCard {
+    border: 2px solid black;
+    border-radius: 15px;
+}
+
 .ponynav {
     color: white;
 }
@@ -30,7 +35,7 @@
 
 .grid-item {
     display: inline-table;
-    width: 250px;
+    width: 1000px;
 }
 
 a:hover {
