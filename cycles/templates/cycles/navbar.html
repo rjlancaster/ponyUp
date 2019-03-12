@@ -1,21 +1,28 @@
 <nav class="navbar navbar-dark bg-primary">
-    <a class="navbar-brand" href="/">Pony Up</a>
+    <a class="navbar-brand" href="/"><i class="fas fa-horse-head"></i> Pony Up</a>
 
     <ul class="nav">
 
-            <li class="nav-item">
-                <a href="{% url 'cycles:tenantlist' %}" class="nav-link ponynav"><i class="far fa-user-circle"></i> Manage
-                    Tenants</a></li>
-            <li class="nav-item">
-                <a href="{% url 'cycles:recurringlist' %}" class="nav-link ponynav"><i class="far fa-user-circle"></i>
-                    Manage
-                    Recurring Catgories</a></li>
-            <li class="nav-item">
-                <a href="{% url 'cycles:newCycleForm' %}" class="nav-link ponynav"><i class="far fa-calendar-alt"></i>
-                    Create New Cycle</a></li>
-            <li class="nav-item">
-                <a href="{% url 'cycles:logout' %}" class="nav-link ponynav"><i class="fas fa-sign-out-alt"></i> Logout</a>
-            </li>
+        <li class="nav-item">
+            <a href="{% url 'cycles:tenantlist' %}" class="nav-link ponynav"><i class="far fa-user-circle"></i> Manage
+                Tenants</a></li>
+        <li class="nav-item">
+            <a href="{% url 'cycles:recurringlist' %}" class="nav-link ponynav"><i class="far fa-user-circle"></i>
+                Manage
+                Recurring Catgories</a></li>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle ponynav" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false"><i class="far fa-calendar-alt"></i>
+                Cycles
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="nav-link dropdown-item" href="{% url 'cycles:newCycleForm' %}">Create New Cycle</a>
+                <a class="nav-link dropdown-item" href="/">View Existing Cycles</a>
+            </div>
+        </li>
+        <li class="nav-item">
+            <a href="{% url 'cycles:logout' %}" class="nav-link ponynav"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </li>
 
     </ul>
 </nav>
