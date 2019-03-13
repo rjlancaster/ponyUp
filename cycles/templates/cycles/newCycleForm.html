@@ -1,17 +1,22 @@
 {% extends "cycles/index.html" %}
 
 {% block content %}
+<h1 class="mx-5 mt-5">Let's add a new Billing Cycle! </h1>
 <form id="" method="post" action="{% url 'cycles:newCycle' %}">
     {% csrf_token %}
-    <h2>What is the name and end date of this new billing cycle?</h2><br>
-    {{ cycle_form }}
-    <br><br>
-    <h2>Who is responsible for bills during this billing cycle?</h2>
+    <label class="m-5">
+        <h2>What is the name and end date of this new cycle?</h2><br>
+        {{ cycle_form }}
+    </label>
+    <label class="mx-5">
+        <h2>Who is paying the bills during this cycle?</h2>
+    </label>
+    <br>
     {% for tenant in tenants %}
-    <input type="checkbox" name="tenant[]" value="{{ tenant.id }}">{{ tenant.name }}<br>
+    <input class="mx-5" type="checkbox" name="tenant[]" value="{{ tenant.id }}">{{ tenant.name }}<br>
     {% endfor %}
     <br>
-    <input type="submit">
+    <input type="submit" value="Save" class="btn btn-primary btn-md mx-5" />
 </form>
 
 {% endblock %}
