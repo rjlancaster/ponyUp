@@ -1,17 +1,20 @@
 {% extends "cycles/index.html" %}
 
 {% block content %}
-<div class="container">
-<h1 class="mt-4 mb-3">Add a Tenant </h1>
+<h1 class="m-5">Add a Tenant </h1>
 
 <form action="{% url 'cycles:addTenant' %}" method='POST'>
     {% csrf_token %}
-    <label for="name">Name</label>
-    <input type="text" name="name" />
-    <label for="income" class="ml-2">Household Income:</label>
-    <input type="text" name="income" />
-
-    <input type="submit" value="Save Tenant" class="btn btn-info ml-3" />
+    <label class="m-5" for="name">
+        <h3>Name</h3>
+    </label>
+    <h3 class='d-inline'><input type="text" name="name" /></h3>
+    <br>
+    <label class='m-5' for="income">
+        <h3>Household Income:</h3>
+    </label>
+    <h3 class='d-inline'><input type="text" name="income" /></h3>
+    <br>
+    <input type="submit" value="Save" class="btn btn-primary btn-lg m-5" />
 </form>
-</div>
 {% endblock content %}

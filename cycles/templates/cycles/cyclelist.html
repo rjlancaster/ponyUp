@@ -1,21 +1,22 @@
 {% extends "cycles/index.html" %}
 
 {% block content %}
-<div class="container">
-    <h1 class="mt-4 mb-3">Billing Cycle List</h1>
-    {% if cycles %}
-    {% for cycle in cycles %}
-    <ul>
-        <li><a href="{% url 'cycles:cycleDetail' cycle.id %}" />{{ cycle.name }} </a> End date: {{ cycle.endDate }}
-            <form action="{% url 'cycles:deleteCycle' cycle.id %}" method="post" class="d-inline">
-                {% csrf_token %}
-                <input type="submit" value="X" class="btn btn-danger btn-sm" /></form>
-            </form>
-        </li>
-    </ul>
-    {% endfor %}
-    {% else %}
-    <p>No billing cycles available</p>
-    {% endif %}
-</div>
+<h1 class="m-5">Billing Cycle List</h1>
+{% if cycles %}
+{% for cycle in cycles %}
+<h3>
+    <form action="{% url 'cycles:deleteCycle' cycle.id %}" class='d-inline' method="post">
+        <p class='m-5'>
+            <a href="{% url 'cycles:cycleDetail' cycle.id %}">{{ cycle.name }}</a> <span class='mx-5'>End date:
+                {{ cycle.endDate }}</span>
+            {% csrf_token %}
+            <input type="submit" value="Delete" class="btn btn-danger btn-md mb-2" />
+    </form>
+    </p>
+</h3>
+</ul>
+{% endfor %}
+{% else %}
+<p>No billing cycles available</p>
+{% endif %}
 {% endblock content %}
