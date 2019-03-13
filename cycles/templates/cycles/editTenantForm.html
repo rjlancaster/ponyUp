@@ -1,12 +1,12 @@
 {% extends "cycles/index.html" %}
 
 {% block content %}
-
+<h1 class="m-5">Edit Tenant</h1>
 <form action="{% url 'cycles:editTenant' tenant.id %}" method="post">
     {% csrf_token %}
-    <label>Name: </label><input type="text" name="name" value="{{ tenant.name }}" />
-    <label>Household income: $</label><input type="text" name="income" value="{{ tenant.income }}" />
-    <input type="submit" value="Save" class="btn btn-primary" />
+    <label class="m-5"><h3>Name: </h3></label><h3 class='d-inline'><input type="text" name="name" value="{{ tenant.name }}" /></h3><br>
+    <label class="m-5"><h3>Household income: $</h3></label><h3 class='d-inline'><input type="text" name="income" value="{{ tenant.income }}" /></h3>
+    <input type="submit" value="Save" class="btn btn-primary btn-lg m-4 p-2" />
 </form>
 
 {% endblock %}

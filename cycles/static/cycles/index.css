@@ -16,6 +16,10 @@
     border-radius: 15px;
 }
 
+.inline {
+    display: inline;
+}
+
 .ponynav {
     color: white;
 }
