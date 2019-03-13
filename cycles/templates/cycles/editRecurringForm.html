@@ -1,11 +1,15 @@
 {% extends "cycles/index.html" %}
 
 {% block content %}
-
+<h1 class="m-5">Edit Recurring Category</h1>
 <form action="{% url 'cycles:editRecurring' recurring.id %}" method="post">
     {% csrf_token %}
-    <label>Name: </label><input type="text" name="name" value="{{ recurring.name }}" />
-    <input type="submit" value="Save" class="btn btn-primary" />
+    <label class="m-5">
+        <h3>Name: </h3>
+    </label>
+    <h3 class='d-inline'><input type="text" name="name" value="{{ recurring.name }}" /></h3>
+    <br>
+    <input type="submit" value="Save" class="btn btn-primary btn-lg m-5" />
 </form>
 
 {% endblock %}

@@ -6,7 +6,8 @@
     {% csrf_token %}
     <label class="m-5"><h3>Name: </h3></label><h3 class='d-inline'><input type="text" name="name" value="{{ tenant.name }}" /></h3><br>
     <label class="m-5"><h3>Household income: $</h3></label><h3 class='d-inline'><input type="text" name="income" value="{{ tenant.income }}" /></h3>
-    <input type="submit" value="Save" class="btn btn-primary btn-lg m-4 p-2" />
+    <br>
+    <input type="submit" value="Save" class="btn btn-primary btn-lg m-5 p-2" />
 </form>
 
 {% endblock %}

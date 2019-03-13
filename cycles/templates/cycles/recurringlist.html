@@ -1,16 +1,23 @@
 {% extends "cycles/index.html" %}
 
 {% block content %}
-<h1>Current Recurring Bill Categories</h1>
-<ul class="list-group mt-3" style="width: 25rem;"></ul>
-{% for recurring in recurrings %}
-{% if recurring.deletedOn is None %}
-<li class="list-group-item">{{ recurring.name }}
-    {% csrf_token %}
-    <a href="{% url 'cycles:editRecurringForm' recurring.id %}"><button class="btn btn-primary btn-sm">Edit</button></a>
-    <a href="{% url 'cycles:deleteRecurring' recurring.id %}"><button class="btn btn-danger btn-sm">Delete</button></a>
-</li>
-{% endif %}
-{% endfor %}
-<a href="{% url 'cycles:addRecurringForm' %}"><button class="btn btn-primary btn-sm">Add Recurring Category</button></a>
+<h1 class="m-5">Current Recurring Bill Categories</h1>
+<div class='card-group'>
+    {% for recurring in recurrings %}
+    {% if recurring.deletedOn is None %}
+    <div class="card m-5">
+        <div class='card-body tenantCard'>
+                <h4 class="card-title">{{ recurring.name }}</h4>
+                {% csrf_token %}
+                <a href="{% url 'cycles:editRecurringForm' recurring.id %}"><button
+                        class="btn btn-primary btn-sm">Edit</button></a>
+                <a href="{% url 'cycles:deleteRecurring' recurring.id %}"><button
+                        class="btn btn-danger btn-sm">Delete</button></a>
+        </div>
+    </div>
+    {% endif %}
+    {% endfor %}
+</div>
+<a href="{% url 'cycles:addRecurringForm' %}"><button class="btn btn-primary btn-lg m-5">Add Recurring
+        Category</button></a>
 {% endblock %}
