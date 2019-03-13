@@ -2,11 +2,20 @@
 
 {% block content %}
 
+<h1 class="m-5">Edit Recurring Bill</h1>
 <form action="{% url 'cycles:editBill' billRow.id %}" method="post">
     {% csrf_token %}
-    <label>Name: </label><input type="text" name="name" value="{{ billRow.name }}" />
-    <label>Amount: $</label><input type="text" name="amount" value="{{ billRow.amount }}" />
-    <input type="submit" value="Save" class="btn btn-primary" />
+    <label class="m-5">
+        <h3>Name: </h3>
+    </label>
+    <h3 class='d-inline'><input type="text" name="name" value="{{ billRow.name }}" /></h3>
+    <br>
+    <label class='m-5' for="amount">
+        <h3>Amount:</h3>
+    </label>
+    <h3 class='d-inline'><input type="text" name="amount" value='{{billRow.amount}}' /></h3>
+    <br>
+    <input type="submit" value="Save" class="btn btn-primary btn-lg m-5" />
 </form>
 
 {% endblock %}

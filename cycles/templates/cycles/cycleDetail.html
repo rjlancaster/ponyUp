@@ -1,170 +1,206 @@
 {% extends "cycles/index.html" %}
 
 {% block content %}
+<div class="maxWidth">
+    {% if cycle.inactive == 0 %}
+    <a href="{% url 'cycles:cycleLock' cycle.id %}"><button class="btn btn-danger btn-md">Lock Billing
+            Cycle</button></a>
+    {% endif %}
 
-{% if cycle.inactive == 0 %}
-<a href="{% url 'cycles:cycleLock' cycle.id %}"><button class="btn btn-danger btn-md">Lock Billing Cycle</button></a>
-{% endif %}
+    {% if cycle.inactive == 1 %}
+    <a href="{% url 'cycles:cycleLock' cycle.id %}"><button class="btn btn-primary btn-md">Unlock Billing
+            Cycle</button></a>
+    {% endif %}
 
-{% if cycle.inactive == 1 %}
-<a href="{% url 'cycles:cycleLock' cycle.id %}"><button class="btn btn-primary btn-md">Unlock Billing Cycle</button></a>
-{% endif %}
+    {% if cycle.split == 0 %}
+    <a href="{% url 'cycles:percentSplit' cycle.id %}"><button class="btn btn-danger btn-md">Split Bills by Income
+            %</button></a>
+    {% endif %}
 
-{% if cycle.split == 0 %}
-<a href="{% url 'cycles:percentSplit' cycle.id %}"><button class="btn btn-danger btn-md">Split Bills by Income
-        %</button></a>
-{% endif %}
+    {% if cycle.split == 1 %}
+    <a href="{% url 'cycles:percentSplit' cycle.id %}"><button class="btn btn-primary btn-md">Split Bills
+            Evenly</button></a>
+    {% endif %}
 
-{% if cycle.split == 1 %}
-<a href="{% url 'cycles:percentSplit' cycle.id %}"><button class="btn btn-primary btn-md">Split Bills
-        Evenly</button></a>
-{% endif %}
+    <br>
+    <br>
 
-<br>
-<br>
+    <h2 class='mx-5 center'>{{ cycle.name }} Cycle</h2>
+    <h2 class='mx-5 center'>End Date: {{ cycle.endDate }}</h2>
 
-<h2 class='mx-5 center'>{{ cycle.name }} Cycle</h2>
-<h2 class='mx-5 center'>End Date: {{ cycle.endDate }}</h2>
+    {% if cycle.split == 0 %}
 
-{% if cycle.split == 0 %}
-<h6 class='bold mx-5 mt-3'>Responsibilities</h6>
-<table class="table table-striped mx-5">
-    <thead>
-        <tr>
-            <th scope="col">Bills</th>
-            <th scope="col">Amount</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <th scope="row">Recurring</th>
-            <td>${{ recurringBillsDue.amount__sum|floatformat:2 }}</td>
-        </tr>
-        <tr>
-            <th scope="row">One-Time</th>
-            <td>${{ oneTimeBillsDue.amount__sum|floatformat:2 }}</td>
-        </tr>
-        <tr>
-            <th scope="row">Total for {{ cycle.name }}</th>
-            <td>${{ allBillsDue.amount__sum|floatformat:2 }}</td>
-        </tr>
-    </tbody>
-</table>
-
-<table class="table table-striped mx-5">
-    <thead>
-        <tr>
-            <th scope="col">Individual</th>
-            <th scope="col">Amount</th>
-        </tr>
-    </thead>
-    <tbody>
+    <table class="table table-striped mx-5 mt-3">
+        <thead>
+            <tr>
+                <th scope="col">Bills</th>
+                <th scope="col">Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th scope="row">Recurring</th>
+                <td>${{ recurringBillsDue.amount__sum|floatformat:2 }}</td>
+            </tr>
+            <tr>
+                <th scope="row">One-Time</th>
+                <td>${{ oneTimeBillsDue.amount__sum|floatformat:2 }}</td>
+            </tr>
+            <tr>
+                <th scope="row">Total for {{ cycle.name }}</th>
+                <td>${{ allBillsDue.amount__sum|floatformat:2 }}</td>
+            </tr>
+        </tbody>
+    </table>
+    <br>
+    <table class="table table-striped mx-5 mt-3">
+        <thead>
+            <tr>
+                <th scope="col">Individual Responsibility</th>
+                <th scope="col">Amount</th>
+            </tr>
+        </thead>
+        <tbody>
             {% for tenant in currentTenants %}
-        <tr>
-            <th scope="row">{{ tenant.name }}</th>
-            <td>${{ duePerTenant|floatformat:2 }}</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
-{% endif %}
+            <tr>
+                <th scope="row">{{ tenant.name }}</th>
+                <td>${{ duePerTenant|floatformat:2 }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
 
-{% if cycle.split == 1 %}
-<h6 class='bold mx-5 mt-3'>Responsibilities</h6>
-<table class="table table-striped mx-5">
-    <thead>
-        <tr>
-            <th scope="col">Bills</th>
-            <th scope="col">Amount</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <th scope="row">Recurring</th>
-            <td>${{ recurringBillsDue.amount__sum|floatformat:2 }}</td>
-        </tr>
-        <tr>
-            <th scope="row">One-Time</th>
-            <td>${{ oneTimeBillsDue.amount__sum|floatformat:2 }}</td>
-        </tr>
-        <tr>
-            <th scope="row">Total for {{ cycle.name }}</th>
-            <td>${{ allBillsDue.amount__sum|floatformat:2 }}</td>
-        </tr>
-    </tbody>
-</table>
+    {% if cycle.split == 1 %}
 
-<table class="table table-striped mx-5">
-    <thead>
-        <tr>
-            <th scope="col">Individual</th>
-            <th scope="col">Amount</th>
-        </tr>
-    </thead>
-    <tbody>
+    <table class="table table-striped mx-5 mt-3">
+        <thead>
+            <tr>
+                <th scope="col">Bills</th>
+                <th scope="col">Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th scope="row">Recurring</th>
+                <td>${{ recurringBillsDue.amount__sum|floatformat:2 }}</td>
+            </tr>
+            <tr>
+                <th scope="row">One-Time</th>
+                <td>${{ oneTimeBillsDue.amount__sum|floatformat:2 }}</td>
+            </tr>
+            <tr>
+                <th scope="row">Total for {{ cycle.name }}</th>
+                <td>${{ allBillsDue.amount__sum|floatformat:2 }}</td>
+            </tr>
+        </tbody>
+    </table>
+    <br>
+    <table class="table table-striped mx-5 mt-3">
+        <thead>
+            <tr>
+                <th scope="col">Individual Responsibility</th>
+                <th scope="col">Amount</th>
+            </tr>
+        </thead>
+        <tbody>
             {% for tenant, due in percentAmtDue.items %}
-        <tr>
-            <th scope="row">{{ tenant }}</th>
-            <td>${{ due|floatformat:2 }}</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+            <tr>
+                <th scope="row">{{ tenant }}</th>
+                <td>${{ due|floatformat:2 }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 
-{% endif %}
+    {% endif %}
 
-<br>
-{% if cycle.inactive == 0 %}
-<p>Recurring Bills</p>
-{% for bill in recurringBills%}
+    <br>
+    {% if cycle.inactive == 0 %}
+    <table class="table table-striped mx-5 mt-3">
+        <thead>
+            <tr>
+                <th scope="col">Recurring Bills</th>
+                <th scope="col">Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for bill in recurringBills%}
+            <tr>
+                <th scope="row">{{ bill.name }}</th>
+                <td>${{ bill.amount }} <a href="{% url 'cycles:editBillForm' bill.id %}"><button
+                            class="btn btn-primary btn-sm ml-3">Edit</button></a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{% url 'cycles:addRecurringFormDetail' cycle.id %}"><button class="btn btn-primary btn-sm mx-5">Add
+            Recurring
+            Bill</button></a>
+    <br>
+    <br>
+    <table class="table table-striped mx-5 mt-3">
+        <thead>
+            <tr>
+                <th scope="col">One-Time Bills</th>
+                <th scope="col">Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for bill in oneTimeBills%}
+            <tr>
+                <th scope="row">{{ bill.name }}</th>
+                <td>${{ bill.amount }} <a href="{% url 'cycles:editBillForm' bill.id %}"><button
+                            class="btn btn-primary btn-sm ml-3">Edit</button></a><a
+                        href="{% url 'cycles:deleteBill' bill.id %}"><button
+                            class="btn btn-danger btn-sm ml-3">Delete</button></a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{% url 'cycles:addOneTimeForm' cycle.id %}"><button class="btn btn-primary btn-sm mx-5">Add One-Time
+            Bill</button></a>
+    <br>
+    {% endif %}
 
-<p>{{ bill.name }} ${{ bill.amount }} <a href="{% url 'cycles:editBillForm' bill.id %}"><button
-            class="btn btn-primary btn-sm">Edit</button></a></p>
 
-{% endfor %}
-
-<br>
-<a href="{% url 'cycles:addRecurringFormDetail' cycle.id %}"><button class="btn btn-primary btn-sm">Add Recurring
-        Bill</button></a>
-<br>
-<br>
-<br>
-<p>One-Time Bills</p>
-{% for bill in oneTimeBills%}
-<p>{{ bill.name }} ${{ bill.amount }} <a href="{% url 'cycles:editBillForm' bill.id %}"><button
-            class="btn btn-primary btn-sm">Edit</button></a>
-    <a href="{% url 'cycles:deleteBill' bill.id %}"><button class="btn btn-danger btn-sm">Delete</button></a></p>
-{% endfor %}
-
-<br>
-<a href="{% url 'cycles:addOneTimeForm' cycle.id %}"><button class="btn btn-primary btn-sm">Add One-Time
-        Bill</button></a>
-<br>
-Total due for billing cycle: ${{ allBillsDue.amount__sum|floatformat:2 }}
-{% endif %}
-
-
-{% if cycle.inactive == 1 %}
-<p>Recurring Bills</p>
-{% for bill in recurringBills%}
-
-<p>{{ bill.name }} ${{ bill.amount }} </p>
-
-{% endfor %}
-
-Total due for Recurring Bills: ${{ recurringBillsDue.amount__sum|floatformat:2 }}
-<br>
-<br>
-<br>
-<br>
-<p>One-Time Bills</p>
-{% for bill in oneTimeBills%}
-<p>{{ bill.name }} ${{ bill.amount }} </p>
-{% endfor %}
-
-Total due for One-Time Bills: ${{ oneTimeBillsDue.amount__sum|floatformat:2 }}
-<br>
-<br>
-{% endif %}
-
+    {% if cycle.inactive == 1 %}
+    <table class="table table-striped mx-5 mt-3">
+        <thead>
+            <tr>
+                <th scope="col">Recurring Bills</th>
+                <th scope="col">Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for bill in recurringBills%}
+            <tr>
+                <th scope="row">{{ bill.name }}</th>
+                <td>${{ bill.amount }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <br>
+    <br>
+    <table class="table table-striped mx-5 mt-3">
+        <thead>
+            <tr>
+                <th scope="col">One-Time Bills</th>
+                <th scope="col">Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for bill in oneTimeBills%}
+            <tr>
+                <th scope="row">{{ bill.name }}</th>
+                <td>${{ bill.amount }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    </a>
+    <br>
+    {% endif %}
+</div>
 {% endblock %}

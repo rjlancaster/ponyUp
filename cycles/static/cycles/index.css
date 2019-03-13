@@ -25,6 +25,10 @@
     text-align: center;
 }
 
+.maxWidth {
+    max-width: 90%;
+}
+
 .ponynav {
     color: white;
 }
