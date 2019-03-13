@@ -16,6 +16,15 @@
     border-radius: 15px;
 }
 
+.bold {
+    /* font-weight: bold; */
+    text-decoration: underline;
+}
+
+.center {
+    text-align: center;
+}
+
 .ponynav {
     color: white;
 }

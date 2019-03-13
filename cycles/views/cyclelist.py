@@ -191,8 +191,7 @@ def newCycle(request):
             cycle=newCycle,
             tenant=tenant
         )
-    repeatBills = Recurring.objects.all()
-    print(repeatBills)
+    repeatBills = Recurring.objects.filter(deletedOn=None)
     for bill in repeatBills:
         newBillCycle = Bills.objects.create(
             name=bill.name,
