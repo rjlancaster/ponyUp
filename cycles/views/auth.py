@@ -8,19 +8,6 @@ from django.db import connection
 from cycles.forms import UserForm
 from ..models import Cycle
 
-# from ..models import Customer, Order
-# from ecomm.models import Product, ProductType
-
-
-def index(request):
-    cycles = Cycle.objects.all()
-    context = {'cycles': cycles}
-    print(context)
-    return render(request, 'cycles/cyclelist.html', context)
-
-
-
-# Create your views here.
 def register(request):
     '''Handles the creation of a new user for authentication
     Method arguments:
@@ -92,6 +79,5 @@ def user_logout(request):
     # Since we know the user is logged in, we can now just log them out.
     logout(request)
 
-    # Take the user back to the homepage. Is there a way to not hard code
-    # in the URL in redirects?????
+    # Take the user back to the homepage.
     return HttpResponseRedirect('/')
