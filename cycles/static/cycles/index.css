@@ -1,15 +1,3 @@
-.jumbotron_container {
-    display: flex;
-    min-height: 100vh;
-}
-
-.jumbotron_item {
-    display: flex;
-    flex-direction: column;
-    /* justify-content: center; */
-    min-height: 100%;
-    width: 100%;
-}
 
 .tenantCard {
     border: 2px solid black;
@@ -27,7 +15,7 @@
 }
 
 .maxWidth {
-    max-width: 90%;
+    max-width: 93%;
 }
 
 .ponynav {

@@ -10,15 +10,15 @@
 </head>
 
 <body>
-    <h1>Register with Pony Up</h1>
+    <h1 class='m-5'>Register with Pony Up</h1>
 
     {% if registered %}
     <strong>Thank you for registering!</strong>
     <a href="{% url 'cycles:index' %}">Return to the homepage.</a><br />
     {% else %}
-    <strong>Register here!</strong><br />
+    <strong class='m-5'>Register here!</strong><br />
 
-    <form id="user_form" method="post" action="{% url 'cycles:register' %}" enctype="multipart/form-data">
+    <form class='m-5' id="user_form" method="post" action="{% url 'cycles:register' %}" enctype="multipart/form-data">
 
         {% csrf_token %}
 
@@ -28,7 +28,7 @@
         {{ user_form.as_p }}
 
         <!-- Provide a button to click to submit the form. -->
-        <input type="submit" name="submit" value="Register" />
+        <input type="submit" name="submit" value="Register" class="btn btn-primary btn-lg"/>
     </form>
     {% endif %}
 </body>
