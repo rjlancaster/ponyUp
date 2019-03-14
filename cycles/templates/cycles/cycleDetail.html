@@ -2,32 +2,37 @@
 
 {% block content %}
 <div class="maxWidth">
-    {% if cycle.inactive == 0 %}
-    <a href="{% url 'cycles:cycleLock' cycle.id %}"><button class="btn btn-danger btn-md">Lock Billing
-            Cycle</button></a>
-    {% endif %}
-
-    {% if cycle.inactive == 1 %}
-    <a href="{% url 'cycles:cycleLock' cycle.id %}"><button class="btn btn-primary btn-md">Unlock Billing
-            Cycle</button></a>
-    {% endif %}
-
-    {% if cycle.split == 0 %}
-    <a href="{% url 'cycles:percentSplit' cycle.id %}"><button class="btn btn-danger btn-md">Split Bills by Income
-            %</button></a>
-    {% endif %}
-
-    {% if cycle.split == 1 %}
-    <a href="{% url 'cycles:percentSplit' cycle.id %}"><button class="btn btn-primary btn-md">Split Bills
-            Evenly</button></a>
-    {% endif %}
 
     <br>
     <br>
 
     <h2 class='mx-5 center'>{{ cycle.name }} Cycle</h2>
     <h2 class='mx-5 center'>End Date: {{ cycle.endDate }}</h2>
+    <div class='center'>
+        {% if cycle.inactive == 0 %}
+        <a href="{% url 'cycles:cycleLock' cycle.id %}"><button
+                class="btn btn-primary btn-md">Lock Billing
+                Cycle</button></a>
+        {% endif %}
 
+        {% if cycle.inactive == 1 %}
+        <a href="{% url 'cycles:cycleLock' cycle.id %}"><button
+                class="btn btn-primary btn-md">Unlock Billing
+                Cycle</button></a>
+        {% endif %}
+
+        {% if cycle.split == 0 %}
+        <a href="{% url 'cycles:percentSplit' cycle.id %}"><button
+                class="btn btn-primary btn-md ">Split Bills by Income
+                %</button></a>
+        {% endif %}
+
+        {% if cycle.split == 1 %}
+        <a href="{% url 'cycles:percentSplit' cycle.id %}"><button
+                class="btn btn-primary btn-md">Split Bills
+                Evenly</button></a>
+        {% endif %}
+    </div>
     {% if cycle.split == 0 %}
 
     <table class="table table-striped mx-5 mt-3">
