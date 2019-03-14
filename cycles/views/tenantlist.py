@@ -7,6 +7,14 @@ from datetime import datetime
 from ..models import Tenant
 
 def tenantlist(request):
+    '''Summary: Captures all of the tenants from the Tenants table and sends it to context
+
+    Arguments:
+        request
+
+    Returns:
+        Renders the context to the tenantlist template.
+    '''
     tenants = Tenant.objects.all()
     context = {'tenants': tenants}
     return render(request, 'cycles/tenantlist.html', context)
@@ -14,15 +22,13 @@ def tenantlist(request):
 def deleteTenant(request, tenant_id):
     '''
 
-    Summary: This function grabs the tenant_id from the template.
-     Then it seeks and selects the tenant row whose product key matches the tenant_id
-     and sticks it into the tenant variable.
+    Summary: This function grabs the tenant associated with the tenant_id from the Tenant table.
 
-     After that it deletes that tenant.
+     After that it submits a deleted on date into the deletedOn field for the tenant.
 
     Arguments:
      request: Brings back the contents of the template.
-     tenant_id: Brings back the id of the current tenant.
+     recurring_id: Brings back the id of the current tenant.
 
     Returns:
      HttpResponseRedirect: Redirects to the tenant list.
@@ -35,23 +41,32 @@ def deleteTenant(request, tenant_id):
     return HttpResponseRedirect(reverse('cycles:tenantlist'))
 
 def editTenantForm(request, tenant_id):
+    '''Summary: Grabs the tenant name associated with the ID and submits it in context to the form for editing
+
+    Arguments:
+        request
+        tenant_id
+
+    Returns:
+        Renders the context to the edit Tenant Form template.
+    '''
     tenantRow = get_object_or_404(Tenant, pk=tenant_id)
     context = {'tenant': tenantRow}
     return render(request, 'cycles/editTenantForm.html', context)
 
 def editTenant(request, tenant_id):
-    """R Lancaster[This method is executed when the user saves the updated user settings on the user settings update form page]
+    """This method is executed when the user saves the updated tenant info on the form page]
 
     Arguments:
         request
+        tenant_id
 
     Returns:
-        User is redirected to main User Settings page.
+        User is redirected to main tenant list page.
     """
     tenant = Tenant.objects.get(pk=tenant_id)
     tenant.name = request.POST['name']
     tenant.income = request.POST['income']
-    # print(tenant.name, tenant.income)
     tenant.save()
     return HttpResponseRedirect(reverse('cycles:tenantlist'))
 
@@ -59,13 +74,13 @@ def addTenantForm(request):
     return render(request, 'cycles/addTenantForm.html')
 
 def addTenant(request):
-    """R Lancaster[This method is executed when the user saves the updated user settings on the user settings update form page]
+    """This method is executed when the user saves the new tenant on the form page]
 
     Arguments:
         request
 
     Returns:
-        User is redirected to main User Settings page.
+        User is redirected to main tenant list page.
     """
     managerId = request.user.id
     name = request.POST['name']
