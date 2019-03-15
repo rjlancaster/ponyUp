@@ -15,7 +15,7 @@
 >  Python | Django | SQLite 3 | Bootstrap
 
 ## Entity Relationship Diagram
-![Pony Up ERD](/src/images/ERD.png "Pony Up ERD")
+![Pony Up ERD](/src/images/ERD1.png "Pony Up ERD")
 
 # Installing Core Technologies
 
