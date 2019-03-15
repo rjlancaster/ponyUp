@@ -2,6 +2,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.db.models import Count, Sum
+from django.contrib.auth.models import User
 from ..models import Cycle, Tenant, tenantCycle, Bills, Recurring
 from cycles.forms import CycleForm, TenantForm
 from django.db import connection
@@ -16,7 +17,8 @@ def cyclelist(request):
     Returns:
         Renders the context to the cyclelist template.
     '''
-    cycles = Cycle.objects.all().order_by('-endDate')
+    managerId = request.user.id
+    cycles = Cycle.objects.filter(manager=managerId).order_by('-endDate')
     context = {'cycles': cycles}
     return render(request, 'cycles/cyclelist.html', context)
 
@@ -107,6 +109,7 @@ def newCycle(request):
     Returns:
         Redirects to the Cycle detail page of the cycle that has just been created
     '''
+    managerId = request.user.id
     # Retrieving info input from New Cycle Form
     name = request.POST['name']
     year = request.POST['endDate_year']
@@ -120,8 +123,8 @@ def newCycle(request):
     # SQL insert into Cycle table
     with connection.cursor() as cursor:
         # raw SQL - Variable names reference the database table columns
-        cursor.execute("INSERT into cycles_cycle VALUES(%s, %s, %s, %s, %s)", [
-                       None, name, inactive, endDate, split])
+        cursor.execute("INSERT into cycles_cycle VALUES(%s, %s, %s, %s, %s, %s)", [
+                       None, name, inactive, endDate, split, managerId])
     # Retrieves ID from Cycle just created
     newCycleId = cursor.lastrowid
     # Retrieves information about cycle just created
@@ -135,13 +138,14 @@ def newCycle(request):
             tenant=tenant
         )
     # Logic below required in order for recurring bills to be assigned to the new cycle. Recurring bill category will be assigned with dollar amount of zero.
-    repeatBills = Recurring.objects.filter(deletedOn=None)
+    repeatBills = Recurring.objects.filter(deletedOn=None, manager=managerId)
     for bill in repeatBills:
         newBillCycle = Bills.objects.create(
             name=bill.name,
             amount=0.00,
             recurring=1,
-            cycle=newCycle
+            cycle=newCycle,
+            manager = User.objects.get(pk=managerId)
         )
     return HttpResponseRedirect(reverse('cycles:cycleDetail', args=(newCycleId, )))
 
@@ -286,13 +290,15 @@ def addRecurringDetail(request, cycle_id):
     Returns:
         User is redirected to cycle detail page for the cycle currently being worked on.
     """
+    managerId = request.user.id
     name = request.POST['name']
     amount = request.POST['amount']
-    new_tenant = Bills.objects.create(
+    new_bill = Bills.objects.create(
         name=name,
         amount=amount,
         recurring=1,
-        cycle=Cycle.objects.get(pk=cycle_id)
+        cycle=Cycle.objects.get(pk=cycle_id),
+        manager=User.objects.get(pk=managerId)
     )
     return HttpResponseRedirect(reverse('cycles:cycleDetail', args=(cycle_id, )))
 
@@ -321,12 +327,14 @@ def addOneTime(request, cycle_id):
     Returns:
         User is redirected to cycle detail page for the cycle currently being worked on.
     """
+    managerId = request.user.id
     name = request.POST['name']
     amount = request.POST['amount']
     new_tenant = Bills.objects.create(
         name=name,
         amount=amount,
         recurring=0,
-        cycle=Cycle.objects.get(pk=cycle_id)
+        cycle=Cycle.objects.get(pk=cycle_id),
+        manager=User.objects.get(pk=managerId)
     )
     return HttpResponseRedirect(reverse('cycles:cycleDetail', args=(cycle_id, )))

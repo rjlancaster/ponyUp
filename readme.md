@@ -85,7 +85,7 @@ From here, you should see the main links for the Pony Up application.
 
 While inside the PonyUp/PonyUp folder, enter this command:
 ```
-python manage.py makemigrations Workforce
+python manage.py makemigrations cycles
 ```
 Then enter
 ```

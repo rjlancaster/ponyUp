@@ -16,6 +16,7 @@ class Cycle(models.Model):
     inactive = models.BooleanField(default=None, null=False)
     endDate = models.DateField(default=None)
     split = models.IntegerField(default=0)
+    manager = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
       return f'{self.name}'
@@ -29,6 +30,7 @@ class Bills(models.Model):
     amount = models.DecimalField(max_digits=9, decimal_places=2)
     recurring = models.BooleanField(default=None, null=False)
     cycle = models.ForeignKey(Cycle, on_delete=models.CASCADE)
+    manager = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
       return f'{self.name}'
@@ -36,6 +38,7 @@ class Bills(models.Model):
 class Recurring(models.Model):
     name = models.CharField(max_length=100)
     deletedOn = models.DateField(default=None, null=True)
+    manager = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
       return f'{self.name}'

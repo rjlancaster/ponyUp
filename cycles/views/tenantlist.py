@@ -15,7 +15,8 @@ def tenantlist(request):
     Returns:
         Renders the context to the tenantlist template.
     '''
-    tenants = Tenant.objects.all()
+    managerId = request.user.id
+    tenants = Tenant.objects.filter(manager=managerId)
     context = {'tenants': tenants}
     return render(request, 'cycles/tenantlist.html', context)
 

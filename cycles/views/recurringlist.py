@@ -2,7 +2,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from datetime import datetime
-from ..models import Recurring
+from ..models import Recurring, User
 
 
 def recurringlist(request):
@@ -14,8 +14,8 @@ def recurringlist(request):
     Returns:
         Renders the context to the recurringlist template.
     '''
-
-    recurrings = Recurring.objects.all()
+    managerId = request.user.id
+    recurrings = Recurring.objects.filter(manager=managerId)
     context = {'recurrings': recurrings}
     return render(request, 'cycles/recurringlist.html', context)
 
@@ -82,8 +82,10 @@ def addRecurring(request):
     Returns:
         User is redirected to main recurring category list page.
     """
+    managerId = request.user.id
     name = request.POST['name']
     new_recurring = Recurring.objects.create(
-        name = name
+        name = name,
+        manager = User.objects.get(pk=managerId)
     )
     return HttpResponseRedirect(reverse('cycles:recurringlist'))
