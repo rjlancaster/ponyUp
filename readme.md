@@ -8,7 +8,7 @@
 
 ![PonyUpScreenshot1](/src/images/2.png)
 
-![PonyUpScreenshot2](/src/images/1.png))
+![PonyUpScreenshot2](/src/images/1.png)
 
 ## What technologies went into the application?
 
