@@ -43,6 +43,7 @@ def cycleDetail(request, cycle_id):
     oneTimeBills = Bills.objects.filter(recurring=0, cycle=cycle_id)
     oneTimeBillsDue = Bills.objects.filter(
         recurring=0, cycle=cycle_id).aggregate(Sum('amount'))
+    print(oneTimeBillsDue)
     # selects the cycle that the user has selected
     cycle = get_object_or_404(Cycle, pk=cycle_id)
     # calculates all bills for the cycle and transforms into an integer. Needs to be transformed to an integer in order for more calclulations to be run against it.
@@ -63,6 +64,7 @@ def cycleDetail(request, cycle_id):
     # Need this in order to avoid crash. If app tries to divide the number of tenants by a null, system crashes
     if allBillsDueInt == None:
         allBillsDueInt = 0
+
     # The following logic is used for "average" bill split
     if cycle.split == 0:
         for tenant in currentTenants:

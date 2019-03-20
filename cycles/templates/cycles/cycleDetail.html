@@ -47,10 +47,17 @@
                 <th scope="row">Recurring</th>
                 <td>${{ recurringBillsDue.amount__sum|floatformat:2 }}</td>
             </tr>
+            {% if oneTimeBillsDue.amount__sum is None %}
+            <tr>
+                <th scope="row">One-Time</th>
+                <td>$0.00</td>
+            </tr>
+            {% else %}
             <tr>
                 <th scope="row">One-Time</th>
                 <td>${{ oneTimeBillsDue.amount__sum|floatformat:2 }}</td>
             </tr>
+            {% endif %}
             <tr>
                 <th scope="row">Total for {{ cycle.name }}</th>
                 <td>${{ allBillsDue.amount__sum|floatformat:2 }}</td>
