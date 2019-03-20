@@ -1,28 +1,33 @@
-
-<nav class="navbar navbar-dark bg-primary">
+<nav class="navbar navbar-expand-md navbar-dark bg-primary">
     <a class="navbar-brand" href="/"><i class="fas fa-horse-head"></i> Pony Up</a>
-
-    <ul class="nav">
-
-        <li class="nav-item">
-            <a href="{% url 'cycles:tenantlist' %}" class="nav-link ponynav"><i class="far fa-user-circle"></i> Manage
-                Tenants</a></li>
-        <li class="nav-item">
-            <a href="{% url 'cycles:recurringlist' %}" class="nav-link ponynav"><i class="fas fa-columns"></i>
-                Manage Recurring Catgories</a></li>
-        <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle ponynav" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-                aria-haspopup="true" aria-expanded="false"><i class="far fa-calendar-alt"></i>
-                Cycles
-            </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="nav-link dropdown-item" href="{% url 'cycles:newCycleForm' %}">Create New Cycle</a>
-                <a class="nav-link dropdown-item" href="/">View Existing Cycles</a>
-            </div>
-        </li>
-        <li class="nav-item">
-            <a href="{% url 'cycles:logout' %}" class="nav-link ponynav"><i class="fas fa-sign-out-alt"></i> Logout</a>
-        </li>
-
-    </ul>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse order-3" id="navbarSupportedContent">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item mx-2">
+                <a href="{% url 'cycles:tenantlist' %}" class=" ponynav"><i class="far fa-user-circle"></i>
+                    Manage
+                    Tenants</a></li>
+            <li class="nav-item mx-2">
+                <a href="{% url 'cycles:recurringlist' %}" class="ponynav"><i class="fas fa-columns"></i>
+                    Manage Recurring Catgories</a></li>
+            <li class="nav-item dropdown mx-2">
+                <a class="dropdown-toggle ponynav" href="#" id="navbarDropdown" role="button"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i
+                        class="far fa-calendar-alt"></i>
+                    Cycles
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class=" dropdown-item" href="{% url 'cycles:newCycleForm' %}">Create New Cycle</a>
+                    <a class=" dropdown-item" href="/">View Existing Cycles</a>
+                </div>
+            </li>
+            <li class="nav-item mx-2">
+                <a href="{% url 'cycles:logout' %}" class="ponynav"><i class="fas fa-sign-out-alt"></i>
+                    Logout</a>
+            </li>
+        </ul>
+    </div>
 </nav>
