@@ -12,6 +12,13 @@
 .center {
     text-align: center;
     justify-content: center;
+    margin: auto;
+    /* width: 50%; */
+}
+
+.cyclelist {
+    max-width: 50%;
+    margin: auto;
 }
 
 .maxWidth {

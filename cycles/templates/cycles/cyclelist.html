@@ -3,20 +3,22 @@
 {% block content %}
 <h1 class="m-5">Billing Cycles</h1>
 {% if cycles %}
+<!-- <div class='cyclelist'> -->
 {% for cycle in cycles %}
-<h3>
-    <form action="{% url 'cycles:deleteCycle' cycle.id %}" class='d-inline' method="post">
-        <p class='m-5'>
-            <a href="{% url 'cycles:cycleDetail' cycle.id %}">{{ cycle.name }}</a> <span class='mx-5'>End date:
-                {{ cycle.endDate }}</span>
-            {% csrf_token %}
-            <input type="submit" value="Delete" class="btn btn-danger btn-md mb-2" />
-    </form>
-    </p>
-</h3>
-</ul>
-{% endfor %}
+    <h3>
+        <form action="{% url 'cycles:deleteCycle' cycle.id %}" class='d-inline' method="post">
+            <p class='m-5'>
+                <a href="{% url 'cycles:cycleDetail' cycle.id %}">{{ cycle.name }}</a> <span class='mx-5'>End date:
+                    {{ cycle.endDate }}</span>
+                {% csrf_token %}
+                <input type="submit" value="Delete" class="btn btn-danger btn-md mb-2" />
+        </form>
+        </p>
+    </h3>
+    {% endfor %}
+</div>
 {% else %}
 <p class='m-5'>No billing cycles available</p>
+</div>
 {% endif %}
 {% endblock content %}

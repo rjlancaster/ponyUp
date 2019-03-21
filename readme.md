@@ -14,6 +14,8 @@
 
 >  Python | Django | SQLite 3 | Bootstrap
 
+### Login/Auth cloned down from NSS school project (Contributors: Joe Shephard and Steve Brownlee)
+
 ## Entity Relationship Diagram
 ![Pony Up ERD](/src/images/ERD1.png "Pony Up ERD")
 
